@@ -38,7 +38,7 @@ class DisplayProductsForSpecificCategoryScreen extends StatelessWidget {
                       /// implementation of search for a product
                     }),
                 cubit.productsForSpecificCategory.isNotEmpty ?
-                Expanded( child: _productsView(cubit: cubit)) :
+                Expanded(child: _productsView(cubit: cubit)) :
                 const Center(child: CupertinoActivityIndicator(),),
               ],
             ),
@@ -62,7 +62,7 @@ class DisplayProductsForSpecificCategoryScreen extends StatelessWidget {
     );
   }
 
-  Widget _productItem({required List<dynamic> products,required int index}){
+  Widget _productItem({required List<dynamic> products,required int index,required BuildContext context}){
     return Container(
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(4.0),
@@ -73,7 +73,13 @@ class DisplayProductsForSpecificCategoryScreen extends StatelessWidget {
       child: Row(
         children:
         [
-          Expanded(flex:2,child: Image.network(products[index].images[0].toString(),height: double.infinity,width: double.infinity,fit: BoxFit.fill,)),
+          Expanded(
+              flex:2,
+              child: GestureDetector(
+              onTap: ()=> Navigator.push(context, MaterialPageRoute(builder: (context)=> ProductDetailsScreen(model: products[index]))),
+              child: Hero(
+                tag: products[index].id,
+                  child: Image.network(products[index].images[0].toString(),height: double.infinity,width: double.infinity,fit: BoxFit.fill,)))),
           const SizedBox(width: 15,),
           Expanded(
               flex:3,
@@ -109,17 +115,17 @@ class DisplayProductsForSpecificCategoryScreen extends StatelessWidget {
   }
 
   Widget _productsView({required HomeCubit cubit}){
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children:
-      [
-        Text(categoryName,style: const TextStyle(fontWeight: FontWeight.bold,fontSize: 22,color: mainColor),),
-        const SizedBox(height: 2.5),
-        Text("${cubit.productsForSpecificCategory.length} Products",style: const TextStyle(color: Colors.grey,fontSize: 12),),
-        const SizedBox(height: 10),
-        Expanded(
-          child: Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 12.0),
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 12),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children:
+        [
+          Text(categoryName,style: const TextStyle(fontWeight: FontWeight.bold,fontSize: 22,color: mainColor),),
+          const SizedBox(height: 2.5),
+          Text("${cubit.productsForSpecificCategory.length} Products",style: const TextStyle(color: Colors.grey,fontSize: 12),),
+          const SizedBox(height: 10),
+          Expanded(
             child: GridView.builder(
                 physics: const BouncingScrollPhysics(),
                 itemCount: cubit.productsForSpecificCategory.length,
@@ -128,14 +134,14 @@ class DisplayProductsForSpecificCategoryScreen extends StatelessWidget {
                 itemBuilder: (context,index)
                 {
                   return GestureDetector(
-                      onTap: ()=> Navigator.push(context, MaterialPageRoute(builder: (context)=>ProductDetailsScreen(model: cubit.productsForSpecificCategory[index]))),
-                      child : _productItem(index: index,products: cubit.productsForSpecificCategory),
+                      onTap: ()=> Navigator.push(context, MaterialPageRoute(builder: (context)=> ProductDetailsScreen(model: cubit.productsForSpecificCategory[index]))),
+                      child : _productItem(index: index,products: cubit.productsForSpecificCategory,context: context),
                   );
                 }
             ),
           ),
-        ),
-      ],
+        ],
+      ),
     );
   }
 

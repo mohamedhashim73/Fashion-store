@@ -19,3 +19,10 @@ class GetProductsForSpecificCategoryLoadedState extends HomeStates{}
 class GetProductsForSpecificCategorySuccessState extends HomeStates{}
 
 class GetProductsForSpecificCategoryErrorState extends HomeStates{}
+
+/// related to product details screen
+class ChooseProductColorSuccessState extends HomeStates{}
+
+class ChooseProductQuantitySuccessState extends HomeStates{}
+
+class GoToNextPageViewSuccessState extends HomeStates{}

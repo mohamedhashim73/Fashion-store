@@ -2,7 +2,8 @@ import 'package:carousel_slider/carousel_slider.dart';
 import 'package:fashion_store/models/product_model.dart';
 import 'package:flutter/material.dart';
 
-Widget buildBannerItem({required ProductModel productModel}){
+// Todo: used on display product details
+Widget buildCarouselSliderItem({required ProductModel productModel}){
   return CarouselSlider(
       items: productModel.images!.map((e){
         return Container(

@@ -52,8 +52,12 @@ class HomeScreen extends StatelessWidget {
                 ),
                 const SizedBox(height: 15,),
                 BlocBuilder<HomeCubit,HomeStates>(
-                    builder: (context,state){
-                      return cubit.categories.isNotEmpty ? displayCategories(cubit: cubit,categories: cubit.categories,context: context) : Container();}
+                    builder: (context,state)
+                    {
+                      return cubit.categories.isNotEmpty ?
+                            displayCategories(cubit: cubit,categories: cubit.categories,context: context) :
+                            Container();
+                    }
                     ),
                 const SizedBox(height: 15,),
                 Row(
@@ -71,12 +75,12 @@ class HomeScreen extends StatelessWidget {
                       {
                         return GridView.builder(
                             physics: const BouncingScrollPhysics(),
-                            itemCount: 30,   /// the same number that I put on when I call getProducts on MultiProvider on main.dart file
+                            itemCount: 4,   /// The same number that I put on when I call getProducts on MultiProvider on main.dart file
                             shrinkWrap: true,
                             gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(childAspectRatio: 0.6,crossAxisCount: 2,mainAxisSpacing: 20,crossAxisSpacing: 20),
                             itemBuilder: (context,index){
                               return GestureDetector(
-                                  onTap: ()=> Navigator.push(context, MaterialPageRoute(builder: (context)=>ProductDetailsScreen(model: cubit.products[index]))),
+                                  onTap: ()=> Navigator.push(context, MaterialPageRoute(builder: (context)=> ProductDetailsScreen(model: cubit.products[index]))),
                                   child: productItem(index: index,products: cubit.products));
                             }
                         );
@@ -131,7 +135,7 @@ class HomeScreen extends StatelessWidget {
     return GestureDetector(
       onTap: ()
       {
-        // here navigate to page that contain all products related to this category
+        // Todo: here navigate to page that contain all products related to this category
         Navigator.push(context, MaterialPageRoute(builder: (context)=>DisplayProductsForSpecificCategoryScreen(categoryID: categoryID,categoryName: categoryName,)));
       },
       child: Container(
@@ -140,8 +144,8 @@ class HomeScreen extends StatelessWidget {
           shape: BoxShape.circle,
           image: DecorationImage(image: NetworkImage(url),fit: BoxFit.fill)
         ),
-        height: 60,
-        width: 60,
+        height: 70,
+        width: 70,
       ),
     );
   }

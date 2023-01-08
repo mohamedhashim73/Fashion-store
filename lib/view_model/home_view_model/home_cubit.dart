@@ -50,4 +50,25 @@ class HomeCubit extends Cubit<HomeStates>{
     });
     return productsForSpecificCategory;
   }
+
+  /// related to product details screen
+  int productQuantity = 1 ;
+  void increaseQuantity(){
+    productQuantity++;
+    emit(ChooseProductQuantitySuccessState());
+  }
+
+  void decreaseQuantity(){
+    if( productQuantity > 1 )  // عشان اقل قيمه هي ان المستخدم هيأخد كميه واحده من المنتج
+    {
+      productQuantity--;
+    }
+    emit(ChooseProductQuantitySuccessState());
+  }
+
+  int currentPageViewIndex = 0 ;
+  void changePageView(int index){
+    currentPageViewIndex = index;
+    emit(GoToNextPageViewSuccessState());
+  }
 }

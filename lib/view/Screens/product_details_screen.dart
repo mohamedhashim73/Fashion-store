@@ -1,63 +1,133 @@
 import 'package:fashion_store/models/product_model.dart';
 import 'package:fashion_store/shared/constants/colors.dart';
 import 'package:fashion_store/view/Widgets/default_buttons.dart';
+import 'package:fashion_store/view_model/home_view_model/home_cubit.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
+import '../../view_model/home_view_model/home_states.dart';
 import '../Widgets/default_packages_item.dart';
 
 class ProductDetailsScreen extends StatelessWidget {
   ProductDetailsScreen({Key? key,required this.model}) : super(key: key);
   ProductModel model;
+  PageController pageController = PageController();
   @override
   Widget build(BuildContext context) {
+    HomeCubit cubit = BlocProvider.of<HomeCubit>(context);
     return Scaffold(
-      appBar: AppBar(title: const Text("Details"),centerTitle: true,elevation: 0,),
-      body: Padding(
-        padding: const EdgeInsets.symmetric(vertical: 15,horizontal: 15),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children:
-          [
-            Expanded(
-              flex: 6,
-                child: Center(
-                    child: Container(
-                      margin: const EdgeInsets.all(10),
-                      child: buildBannerItem(productModel: model),
-                    )
-                )
-            ),
-            const SizedBox(height: 15,),
-            Expanded(
-              flex: 7,
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      appBar: _appBarItem(cubit: cubit,context: context),
+      body: BlocBuilder<HomeCubit,HomeStates>(
+        builder: (context,state)=> Padding(
+          padding: const EdgeInsets.symmetric(vertical: 15),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children:
+            [
+              Expanded(
+                flex: 6,
+                  child: Container(
+                    height: double.infinity,
+                    width: double.infinity,
+                    margin: const EdgeInsets.all(10),
+                    child: Row(
+                      mainAxisSize: MainAxisSize.max,
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children:
+                      [
+                        GestureDetector(
+                            onTap: ()
+                            {
+                              if( cubit.currentPageViewIndex >= 0 ) { pageController.jumpToPage(cubit.currentPageViewIndex--); }
+                            },
+                            child: Icon(Icons.navigate_before,size: 40,color: cubit.currentPageViewIndex > 0 ? mainColor : Colors.transparent,)
+                        ),
+                        const SizedBox(width: 10,),
+                        Expanded(child: _productViewItem(controller: pageController,cubit: cubit)),
+                        const SizedBox(width: 10,),
+                        GestureDetector(
+                            onTap: ()
+                            {
+                              if( cubit.currentPageViewIndex < model.images!.length ) { pageController.jumpToPage(cubit.currentPageViewIndex++); }
+                            },
+                            child: Icon(Icons.navigate_next,size: 40,color: cubit.currentPageViewIndex == model.images!.length-1 ? Colors.transparent : mainColor,)
+                        ),
+                      ],
+                    ),
+                  )
+              ),
+              const SizedBox(height: 15,),
+              Expanded(
+                flex: 7,
+                child: Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 15.0),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      Text(model.title.toString(),style: const TextStyle(fontWeight: FontWeight.bold,fontSize: 17,color: mainColor),),
-                      Text("${model.price.toString()} \$",style: const TextStyle(fontWeight: FontWeight.bold,fontSize: 17,color: secondColor),),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Text(model.title.toString(),style: const TextStyle(fontWeight: FontWeight.bold,fontSize: 17,color: mainColor),),
+                          Text("${model.price.toString()} \$",style: const TextStyle(fontWeight: FontWeight.bold,fontSize: 17,color: secondColor),),
+                        ],
+                      ),
+                      const SizedBox(height: 5,),
+                      const Text("Colors",style: TextStyle(color: Colors.grey,fontSize: 14),),
+                      const SizedBox(height: 7,),
+                      _chooseProductColor(),
+                      const SizedBox(height: 25,),
+                      _chooseProductCount(cubit: cubit),
+                      const SizedBox(height: 25,),
+                      const Text("Description",style: TextStyle(fontWeight: FontWeight.bold,fontSize: 17,color: mainColor),),
+                      const SizedBox(height: 7,),
+                      Text("${model.description}",style: const TextStyle(fontSize: 14,fontWeight: FontWeight.w400,color: secondColor),),
+                      const Spacer(),
+                      _addToCartItems(),
                     ],
                   ),
-                  const SizedBox(height: 5,),
-                  const Text("Colors",style: TextStyle(color: Colors.grey,fontSize: 14),),
-                  const SizedBox(height: 7,),
-                  _chooseProductColor(),
-                  const SizedBox(height: 25,),
-                  _chooseProductCount(),
-                  const SizedBox(height: 25,),
-                  const Text("Description",style: TextStyle(fontWeight: FontWeight.bold,fontSize: 17,color: mainColor),),
-                  const SizedBox(height: 7,),
-                  Text("${model.description}",style: const TextStyle(fontSize: 14,fontWeight: FontWeight.w400,color: secondColor),),
-                  const Spacer(),
-                  _addToCartItems(),
-                ],
-              ),
-            ),
-          ],
+                ),
+                ),
+            ],
+          ),
         ),
       ),
+    );
+  }
+
+  PreferredSizeWidget _appBarItem({required HomeCubit cubit,required BuildContext context}) => AppBar(
+      title: const Text("Details"),
+      elevation: 0,
+      leading: BackButton(
+          onPressed: ()
+          {
+            cubit.productQuantity = 1 ;
+            cubit.currentPageViewIndex = 0 ;
+            Navigator.pop(context);
+          })
+  );
+
+  Widget _productViewItem({required PageController controller,required HomeCubit cubit}){
+    return PageView.builder(
+      itemCount: model.images!.length,
+      onPageChanged: (index)
+      {
+        cubit.changePageView(index);
+      },
+      itemBuilder: (context,index)
+      {
+        return Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 25.0,vertical: 30),
+          child: Hero(
+              tag:model.id!,
+              child: Container(
+                clipBehavior: Clip.hardEdge,
+                decoration: BoxDecoration(borderRadius: BorderRadius.circular(1)),
+                child: Image.network(model.images![index].toString(),width: double.infinity,fit: BoxFit.fill,height: double.infinity,),
+              )),
+        );
+      },
+      physics: const BouncingScrollPhysics(),
+      controller: controller,
     );
   }
 
@@ -68,28 +138,32 @@ class ProductDetailsScreen extends StatelessWidget {
       const SizedBox(width: 10,),
       Container(height: 15,width: 15,decoration: BoxDecoration(color: Colors.red,borderRadius: BorderRadius.circular(2)),),
       const SizedBox(width: 10,),
-      Container(height: 15,width: 15,decoration: BoxDecoration(color: Colors.green,borderRadius: BorderRadius.circular(2)),),
-      const SizedBox(width: 10,),
       Container(height: 15,width: 15,decoration: BoxDecoration(color: Colors.black,borderRadius: BorderRadius.circular(2)),),
     ],
   );
 
-  Widget _chooseProductCount() => Row(
+  Widget _chooseProductCount({required HomeCubit cubit}) => Row(
     mainAxisAlignment: MainAxisAlignment.center,
     children:
-    const [
-      CircleAvatar(
-        radius: 15,
-        backgroundColor: mainColor,
-        child: Icon(Icons.remove,color: Colors.white,),
+    [
+      GestureDetector(
+        onTap: (){cubit.decreaseQuantity();},
+        child: const CircleAvatar(
+          radius: 15,
+          backgroundColor: mainColor,
+          child: Icon(Icons.remove,color: Colors.white,),
+        ),
       ),
-      SizedBox(width: 10,),
-      Text("1",style: TextStyle(color: mainColor,fontWeight: FontWeight.bold,fontSize: 18),),
-      SizedBox(width: 10,),
-      CircleAvatar(
-        radius: 15,
-        backgroundColor: mainColor,
-        child: Icon(Icons.add,color: Colors.white,),
+      const SizedBox(width: 10,),
+      Text(cubit.productQuantity.toString(),style: const TextStyle(color: mainColor,fontWeight: FontWeight.bold,fontSize: 20),),
+      const SizedBox(width: 10,),
+      GestureDetector(
+        onTap: (){cubit.increaseQuantity();},
+        child: const CircleAvatar(
+          radius: 15,
+          backgroundColor: mainColor,
+          child: Icon(Icons.add,color: Colors.white,),
+        ),
       ),
     ],
   );
