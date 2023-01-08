@@ -1,5 +1,6 @@
 import 'package:fashion_store/main.dart';
 import 'package:fashion_store/shared/constants/colors.dart';
+import 'package:fashion_store/view/Screens/product_details_screen.dart';
 import 'package:fashion_store/view/Widgets/default_buttons.dart';
 import 'package:fashion_store/view_model/home_view_model/home_cubit.dart';
 import 'package:fashion_store/view_model/home_view_model/home_states.dart';
@@ -60,6 +61,7 @@ class DisplayProductsForSpecificCategoryScreen extends StatelessWidget {
         },),
     );
   }
+
   Widget _productItem({required List<dynamic> products,required int index}){
     return Container(
       decoration: BoxDecoration(
@@ -125,7 +127,10 @@ class DisplayProductsForSpecificCategoryScreen extends StatelessWidget {
                 gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(childAspectRatio: 1.8,crossAxisCount: 1,mainAxisSpacing: 20,crossAxisSpacing: 20),
                 itemBuilder: (context,index)
                 {
-                  return _productItem(index: index,products: cubit.productsForSpecificCategory);
+                  return GestureDetector(
+                      onTap: ()=> Navigator.push(context, MaterialPageRoute(builder: (context)=>ProductDetailsScreen(model: cubit.productsForSpecificCategory[index]))),
+                      child : _productItem(index: index,products: cubit.productsForSpecificCategory),
+                  );
                 }
             ),
           ),

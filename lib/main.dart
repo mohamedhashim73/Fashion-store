@@ -5,6 +5,7 @@ import 'package:fashion_store/shared/theme/theme.dart';
 import 'package:fashion_store/view/Screens/auth_screen.dart';
 import 'package:fashion_store/view/Screens/categories_screen.dart';
 import 'package:fashion_store/view/Screens/display_all_products_screen.dart';
+import 'package:fashion_store/view/Screens/home_screen.dart';
 import 'package:fashion_store/view_model/home_view_model/home_cubit.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -27,7 +28,7 @@ class MyApp extends StatelessWidget{
       ],
       child: MaterialApp(
         debugShowCheckedModeBanner: false,
-        home: AuthScreen(),
+        home: HomeScreen(),
         theme: lightTheme,
         routes:
         {

@@ -1,4 +1,5 @@
 import 'package:fashion_store/shared/constants/colors.dart';
+import 'package:fashion_store/view/Screens/product_details_screen.dart';
 import 'package:fashion_store/view/Widgets/default_buttons.dart';
 import 'package:fashion_store/view/Widgets/product_item_widget.dart';
 import 'package:flutter/cupertino.dart';
@@ -41,7 +42,9 @@ class DisplayAllProductsScreenState extends State<DisplayAllProductsScreen> {
                       shrinkWrap: true,
                       gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(childAspectRatio: 0.6,crossAxisCount: 2,mainAxisSpacing: 20,crossAxisSpacing: 20),
                       itemBuilder: (context,index){
-                        return productItem(index: index,products: filteredData.isNotEmpty ? filteredData : cubit.products);
+                        return GestureDetector(
+                            onTap: ()=> Navigator.push(context, MaterialPageRoute(builder: (context)=>ProductDetailsScreen(model: filteredData.isNotEmpty ? filteredData[index] : cubit.products[index]))),
+                            child: productItem(index: index,products: filteredData.isNotEmpty ? filteredData : cubit.products));
                       }
                   );
                 }

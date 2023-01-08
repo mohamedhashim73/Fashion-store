@@ -1,6 +1,7 @@
 import 'package:fashion_store/shared/constants/colors.dart';
 import 'package:fashion_store/shared/constants/constants.dart';
 import 'package:fashion_store/view/Screens/display_products_for_specific_category_screen.dart';
+import 'package:fashion_store/view/Screens/product_details_screen.dart';
 import 'package:fashion_store/view/Widgets/search_bar_item.dart';
 import 'package:fashion_store/view_model/home_view_model/home_cubit.dart';
 import 'package:flutter/cupertino.dart';
@@ -74,7 +75,9 @@ class HomeScreen extends StatelessWidget {
                             shrinkWrap: true,
                             gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(childAspectRatio: 0.6,crossAxisCount: 2,mainAxisSpacing: 20,crossAxisSpacing: 20),
                             itemBuilder: (context,index){
-                              return productItem(index: index,products: cubit.products);
+                              return GestureDetector(
+                                  onTap: ()=> Navigator.push(context, MaterialPageRoute(builder: (context)=>ProductDetailsScreen(model: cubit.products[index]))),
+                                  child: productItem(index: index,products: cubit.products));
                             }
                         );
                       }

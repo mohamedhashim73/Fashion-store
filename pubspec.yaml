@@ -42,6 +42,7 @@ dependencies:
   bloc: ^8.1.0
   smooth_page_indicator: ^1.0.0+2
   flutter_svg: ^1.1.6
+  carousel_slider: ^4.2.1
 
 dev_dependencies:
   flutter_test:
