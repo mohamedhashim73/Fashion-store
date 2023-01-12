@@ -25,4 +25,3 @@ class ChooseProductColorSuccessState extends HomeStates{}
 
 class ChooseProductQuantitySuccessState extends HomeStates{}
 
-class GoToNextPageViewSuccessState extends HomeStates{}

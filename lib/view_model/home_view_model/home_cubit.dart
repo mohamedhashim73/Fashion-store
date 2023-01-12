@@ -66,9 +66,4 @@ class HomeCubit extends Cubit<HomeStates>{
     emit(ChooseProductQuantitySuccessState());
   }
 
-  int currentPageViewIndex = 0 ;
-  void changePageView(int index){
-    currentPageViewIndex = index;
-    emit(GoToNextPageViewSuccessState());
-  }
 }

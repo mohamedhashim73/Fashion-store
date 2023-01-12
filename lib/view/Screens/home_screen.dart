@@ -1,3 +1,4 @@
+import 'package:fashion_store/shared/cache_helper.dart';
 import 'package:fashion_store/shared/constants/colors.dart';
 import 'package:fashion_store/shared/constants/constants.dart';
 import 'package:fashion_store/view/Screens/display_products_for_specific_category_screen.dart';
@@ -22,7 +23,7 @@ class HomeScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     HomeCubit cubit = BlocProvider.of<HomeCubit>(context);  /// make an instance from cubit
     return Scaffold(
-        appBar: appBar(),
+        appBar: appBar(context),
         body: Padding(
           padding: const EdgeInsets.symmetric(horizontal: 12.0,vertical: 15.0),
           child: SingleChildScrollView(
@@ -98,12 +99,17 @@ class HomeScreen extends StatelessWidget {
     );
   }
 
-  PreferredSizeWidget appBar(){
+  PreferredSizeWidget appBar(BuildContext context){
     return AppBar(
       title: SvgPicture.asset('assets/images/logo.svg',color: mainColor,height: 40,width: 40,),
       actions:
       [
-        IconButton(onPressed: (){}, icon: const Icon(Icons.filter_list_sharp))
+        IconButton(
+            onPressed: ()
+            {
+              Navigator.pushNamed(context, "auth_screen");
+            },
+            icon: const Icon(Icons.filter_list_sharp))
       ],
     );
   }
@@ -126,17 +132,18 @@ class HomeScreen extends StatelessWidget {
       padding: const EdgeInsets.symmetric(horizontal: 7),
       child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: List.generate(4, (index) => categoryItem(url: categories[index].image.toString(),categoryID: categories[index].id,categoryName: categories[index].name,context: context))
+          children: List.generate(4, (index) => categoryItem(url: categories[index].image.toString(),cubit: cubit,categoryID: categories[index].id,categoryName: categories[index].name,context: context))
       ),
     );
   }
 
-  Widget categoryItem({required String url,required int categoryID,required BuildContext context,required String categoryName}){
+  Widget categoryItem({required String url,required int categoryID,required BuildContext context,required String categoryName,required HomeCubit cubit}){
     return GestureDetector(
       onTap: ()
       {
+        cubit.productsForSpecificCategory.clear();   // to get new data when I go to it
         // Todo: here navigate to page that contain all products related to this category
-        Navigator.push(context, MaterialPageRoute(builder: (context)=>DisplayProductsForSpecificCategoryScreen(categoryID: categoryID,categoryName: categoryName,)));
+        Navigator.push(context, MaterialPageRoute(builder: (context)=> DisplayProductsForSpecificCategoryScreen(categoryID: categoryID,categoryName: categoryName,)));
       },
       child: Container(
         margin: const EdgeInsets.symmetric(vertical: 0),

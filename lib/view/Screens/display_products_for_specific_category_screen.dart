@@ -9,6 +9,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import '../Widgets/search_bar_item.dart';
 
+// Todo: محتاج اعمل اما ارجع من الاسكرينه ده يصفر list بتاعتي عشان يجيب داتا جديده
 class DisplayProductsForSpecificCategoryScreen extends StatelessWidget {
   int categoryID;   /// use to get all products for category which depend on its ID
   String categoryName;
@@ -37,9 +38,9 @@ class DisplayProductsForSpecificCategoryScreen extends StatelessWidget {
                     {
                       /// implementation of search for a product
                     }),
-                cubit.productsForSpecificCategory.isNotEmpty ?
+                state is GetProductsForSpecificCategorySuccessState ?
                 Expanded(child: _productsView(cubit: cubit)) :
-                const Center(child: CupertinoActivityIndicator(),),
+                const Expanded(child: Center(child: CupertinoActivityIndicator(),)),
               ],
             ),
           ),

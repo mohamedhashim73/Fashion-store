@@ -30,30 +30,7 @@ class ProductDetailsScreen extends StatelessWidget {
                     height: double.infinity,
                     width: double.infinity,
                     margin: const EdgeInsets.all(10),
-                    child: Row(
-                      mainAxisSize: MainAxisSize.max,
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children:
-                      [
-                        GestureDetector(
-                            onTap: ()
-                            {
-                              if( cubit.currentPageViewIndex >= 0 ) { pageController.jumpToPage(cubit.currentPageViewIndex--); }
-                            },
-                            child: Icon(Icons.navigate_before,size: 40,color: cubit.currentPageViewIndex > 0 ? mainColor : Colors.transparent,)
-                        ),
-                        const SizedBox(width: 10,),
-                        Expanded(child: _productViewItem(controller: pageController,cubit: cubit)),
-                        const SizedBox(width: 10,),
-                        GestureDetector(
-                            onTap: ()
-                            {
-                              if( cubit.currentPageViewIndex < model.images!.length ) { pageController.jumpToPage(cubit.currentPageViewIndex++); }
-                            },
-                            child: Icon(Icons.navigate_next,size: 40,color: cubit.currentPageViewIndex == model.images!.length-1 ? Colors.transparent : mainColor,)
-                        ),
-                      ],
-                    ),
+                    child: buildCarouselSliderItem(productModel: model),
                   )
               ),
               const SizedBox(height: 15,),
@@ -101,35 +78,9 @@ class ProductDetailsScreen extends StatelessWidget {
           onPressed: ()
           {
             cubit.productQuantity = 1 ;
-            cubit.currentPageViewIndex = 0 ;
             Navigator.pop(context);
           })
   );
-
-  Widget _productViewItem({required PageController controller,required HomeCubit cubit}){
-    return PageView.builder(
-      itemCount: model.images!.length,
-      onPageChanged: (index)
-      {
-        cubit.changePageView(index);
-      },
-      itemBuilder: (context,index)
-      {
-        return Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 25.0,vertical: 30),
-          child: Hero(
-              tag:model.id!,
-              child: Container(
-                clipBehavior: Clip.hardEdge,
-                decoration: BoxDecoration(borderRadius: BorderRadius.circular(1)),
-                child: Image.network(model.images![index].toString(),width: double.infinity,fit: BoxFit.fill,height: double.infinity,),
-              )),
-        );
-      },
-      physics: const BouncingScrollPhysics(),
-      controller: controller,
-    );
-  }
 
   Widget _chooseProductColor() => Row(
     mainAxisAlignment: MainAxisAlignment.center,

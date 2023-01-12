@@ -14,8 +14,8 @@ class AuthNetworkRepository extends AuthRepository {
       {
         'name' : name,
         'email' : email,
-        'role' : "admin",
-        'avatar' : userImage,    // user image saved on constants file ad a default value
+        'role' : "customer",
+        'avatar' : userImage,    // user image saved on constants file as a default value
         'password' : password,
       },
     );
