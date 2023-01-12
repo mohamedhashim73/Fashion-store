@@ -17,10 +17,10 @@ class AuthCubit extends Cubit<AuthStates>{
     await authRepository.userSignUp(name: name, email: email, password: password).then((value) async {
       model = value;
       debugPrint("User Data is ............. $value");
-      CacheHelper.saveCacheData(key: 'userId',value: value.id).then((val)
+      CacheHelper.saveCacheData(key: 'UserID',value: value.id).then((val)
       {
-        if( val == true ) debugPrint("User id is ....... true");
-        userId = CacheHelper.getCacheData('userId');
+        if( val == true ) debugPrint("User id is ................. ${value.id}");
+        userId = CacheHelper.getCacheData('UserID');
         userId?? value.id;
       });
       emit(AuthSuccessState());

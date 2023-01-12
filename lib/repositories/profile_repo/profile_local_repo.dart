@@ -10,7 +10,7 @@ class ProfileLocalRepository extends ProfileRepository{
   }
 
   @override
-  Future deleteMyAccount({required int userID}) {
+  Future deleteMyAccount() {
     // TODO: implement deleteMyAccount
     throw UnimplementedError();
   }

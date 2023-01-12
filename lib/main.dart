@@ -17,7 +17,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await CacheHelper.cacheInitialization();
-  userId = CacheHelper.getCacheData('userId');
+  userId = CacheHelper.getCacheData('UserID');
   Bloc.observer = MyBlocObserver();
   runApp(const MyApp());
 }
@@ -41,6 +41,7 @@ class MyApp extends StatelessWidget{
         {
           'category_screen' : (context) => const CategoriesScreen(),
           'auth_screen' : (context) => AuthScreen(),
+          'profile_screen' : (context) => ProfileScreen(),
           'all_products_screen' : (context) => const DisplayAllProductsScreen(),
         },
       ),

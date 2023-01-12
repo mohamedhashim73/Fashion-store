@@ -24,17 +24,16 @@ class ProfileCubit extends Cubit<ProfileStates>{
   }
 
   Future<bool> logOut() async {
-    await profileRepository.deleteMyAccount(userID: userId!).then((value){
-      if( value == true )
-        {
-          CacheHelper.deleteCacheItem(key: 'userId');
-          emit(DeletedAccountSuccessfullyState());
-          return true;
-        }
-    }).catchError((error){
+    emit(LogOutLoadingState());
+    await profileRepository.deleteMyAccount().then((value) async {
+      debugPrint("Response status from log out is .............. $value");
+      await CacheHelper.deleteCacheItem().then((value)                          // Todo: clear all data on cache as The user will log out
+      {
+        emit(DeletedAccountSuccessfullyState());
+      });}).catchError((error){
+      debugPrint("there is an error during delete an account from business logic layer $error");
       emit(ErrorDuringDeleteAccountState());
-      return false;
     });
-    return false;
+    return CacheHelper.getCacheData("UserID") == null ? true : false ;
   }
 }

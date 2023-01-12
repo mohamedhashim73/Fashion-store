@@ -1,8 +1,8 @@
 import 'package:fashion_store/models/user_model.dart';
 import 'package:fashion_store/repositories/profile_repo/profile_repo.dart';
 import 'package:dio/dio.dart';
+import '../../shared/cache_helper.dart';
 import '../../shared/constants/constants.dart';
-import 'package:flutter/material.dart';
 
 class ProfileNetworkRepository extends ProfileRepository{
   @override
@@ -14,8 +14,9 @@ class ProfileNetworkRepository extends ProfileRepository{
   }
 
   @override
-  Future<dynamic> deleteMyAccount({required int userID}) async {
-    Response response = await Dio().delete("https://api.escuelajs.co/api/v1/users/$userId");
+  Future<dynamic> deleteMyAccount() async {
+    Response response = await Dio().delete("https://api.escuelajs.co/api/v1/users/${CacheHelper.getCacheData('UserID')??userId}");
+    userId = null;   // as I use this value to check it to go to AuthScreen or HomeScreen
     return response;    // response maybe true is deleted successfully and maybe another result
   }
 

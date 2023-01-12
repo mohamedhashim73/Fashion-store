@@ -1,5 +1,6 @@
 import 'package:fashion_store/repositories/auth_repo/auth_network_repo.dart';
 import 'package:fashion_store/shared/constants/colors.dart';
+import 'package:fashion_store/view/Widgets/alert_message.dart';
 import 'package:fashion_store/view/Widgets/default_buttons.dart';
 import 'package:fashion_store/view_model/auth_view_model/auth_cubit.dart';
 import 'package:fashion_store/view_model/auth_view_model/auth_states.dart';
@@ -26,15 +27,15 @@ class AuthScreen extends StatelessWidget {
             shrinkWrap: true,
             children: [
               Container(
-                height: 225,
+                height: 240,
                 padding: const EdgeInsets.symmetric(vertical: 55),
                 alignment: Alignment.bottomCenter,
                 child: const Text("Login to continue process",style: TextStyle(fontWeight: FontWeight.w600,fontSize: 18,color: Colors.white),),
               ),
               Container(
-                height: 525,
+                height: 510,
                 decoration: const BoxDecoration(
-                  borderRadius: BorderRadius.only(topLeft: Radius.circular(37),topRight: Radius.circular(37)),
+                  borderRadius: BorderRadius.only(topLeft: Radius.circular(40),topRight: Radius.circular(40)),
                   color: fourthColor,
                 ),
                 padding: const EdgeInsets.symmetric(vertical: 50,horizontal: 20.0),
@@ -69,7 +70,7 @@ class AuthScreen extends StatelessWidget {
                               if ( state is AuthSuccessState ) Navigator.pushReplacement(context,MaterialPageRoute(builder: (context)=> HomeScreen()));
                               if ( state is AuthErrorState )
                               {
-                                var snackBar = SnackBar(content: Container(color: Colors.black,child: const Text("Error during user sign up"),));
+                                var snackBar = alertMessage(message: "Error during login, try again later", messageColor: Colors.red);
                                 ScaffoldMessenger.of(context).showSnackBar(snackBar);
                               }
                             },

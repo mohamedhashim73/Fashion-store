@@ -13,6 +13,8 @@ class UpdateUserDataLoadingState extends ProfileStates{}
 
 class UpdateUserDataErrorState extends ProfileStates{}
 
+class LogOutLoadingState extends ProfileStates{}
+
 class DeletedAccountSuccessfullyState extends ProfileStates{}
 
 class ErrorDuringDeleteAccountState extends ProfileStates{}

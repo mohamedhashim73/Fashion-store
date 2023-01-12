@@ -56,16 +56,14 @@ class ProfileScreen extends StatelessWidget{
                         _buttonComponent(
                             iconData: Icons.logout,
                             title: "Log out",
-                            onTap: (){
+                            onTap: ()
+                            {
                               cubit.logOut().then((value)
                               {
+                                debugPrint("From profile screen the value of log out is $value");
                                 if( value == true )
                                   {
-                                    Navigator.pushReplacement(context, MaterialPageRoute(builder: (context)=> AuthScreen()));
-                                  }
-                                else
-                                  {
-                                    _alertUserWhenLogOut(context);
+                                    Navigator.push(context, MaterialPageRoute(builder: (context)=>AuthScreen()));
                                   }
                               });
                             }

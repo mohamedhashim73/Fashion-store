@@ -7,5 +7,5 @@ abstract class ProfileRepository{
   // Todo: update userData ( name || password )
 
   // Todo: delete an account using user's id
-  Future<dynamic> deleteMyAccount({required int userID});
+  Future<dynamic> deleteMyAccount();
 }

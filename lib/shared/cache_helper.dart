@@ -32,8 +32,18 @@ class CacheHelper{
     return sharedPreference?.get(key);     // I don't know the dataType for value
   }
 
-  static Future<bool?> deleteCacheItem({required String key}) async {
-    return await sharedPreference?.remove(key);    // remove one Item
+  static Future<bool> deleteCacheItem() async {
+    await sharedPreference?.clear().then((value){
+      if( value == true )
+      {
+        return true;
+      }
+      else
+      {
+        return false;
+      }
+    });
+    return false;
   }
 
 }
