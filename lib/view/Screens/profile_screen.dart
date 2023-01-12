@@ -47,7 +47,9 @@ class ProfileScreen extends StatelessWidget{
                     child: Column(
                       children:
                       [
-                        _buttonComponent(iconData: Icons.person,title: "Update Data",onTap: (){}),
+                        _buttonComponent(iconData: Icons.person,title: "Update Data",onTap: (){
+                          Navigator.pushNamed(context, 'update_screen');
+                        }),
                         const SizedBox(height: 15,),
                         _buttonComponent(iconData: Icons.shopping_cart,title: "Orders",onTap: (){}),
                         const SizedBox(height: 15,),
@@ -60,7 +62,6 @@ class ProfileScreen extends StatelessWidget{
                             {
                               cubit.logOut().then((value)
                               {
-                                debugPrint("From profile screen the value of log out is $value");
                                 if( value == true )
                                   {
                                     Navigator.push(context, MaterialPageRoute(builder: (context)=>AuthScreen()));

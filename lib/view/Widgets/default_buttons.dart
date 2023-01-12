@@ -1,3 +1,4 @@
+import 'package:fashion_store/shared/constants/colors.dart';
 import 'package:flutter/material.dart';
 
 Widget defaultTextFormField({
@@ -49,7 +50,7 @@ Widget defaultButton({
   required Widget content,
   double? height,
   double? elevation,
-  Color? buttonColor,
+  Color buttonColor = mainColor,
   Color? splashColor,
   RoundedRectangleBorder? shape,
   double? minWidth,

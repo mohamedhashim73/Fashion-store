@@ -11,7 +11,10 @@ class UpdateUserDataSuccessState extends ProfileStates{}
 
 class UpdateUserDataLoadingState extends ProfileStates{}
 
-class UpdateUserDataErrorState extends ProfileStates{}
+class UpdateUserDataErrorState extends ProfileStates{
+  String error;
+  UpdateUserDataErrorState({required this.error});
+}
 
 class LogOutLoadingState extends ProfileStates{}
 

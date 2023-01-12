@@ -9,6 +9,7 @@ import 'package:fashion_store/view/Screens/categories_screen.dart';
 import 'package:fashion_store/view/Screens/display_all_products_screen.dart';
 import 'package:fashion_store/view/Screens/home_screen.dart';
 import 'package:fashion_store/view/Screens/profile_screen.dart';
+import 'package:fashion_store/view/Screens/update_profile_screen.dart';
 import 'package:fashion_store/view_model/home_view_model/home_cubit.dart';
 import 'package:fashion_store/view_model/profile_view_model/profile_cubit.dart';
 import 'package:flutter/material.dart';
@@ -18,6 +19,7 @@ Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await CacheHelper.cacheInitialization();
   userId = CacheHelper.getCacheData('UserID');
+  debugPrint("User is is .............. $userId");
   Bloc.observer = MyBlocObserver();
   runApp(const MyApp());
 }
@@ -42,6 +44,7 @@ class MyApp extends StatelessWidget{
           'category_screen' : (context) => const CategoriesScreen(),
           'auth_screen' : (context) => AuthScreen(),
           'profile_screen' : (context) => ProfileScreen(),
+          'update_screen' : (context) => UpdateProfileScreen(),
           'all_products_screen' : (context) => const DisplayAllProductsScreen(),
         },
       ),

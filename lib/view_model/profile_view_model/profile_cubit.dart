@@ -30,10 +30,29 @@ class ProfileCubit extends Cubit<ProfileStates>{
       await CacheHelper.deleteCacheItem().then((value)                          // Todo: clear all data on cache as The user will log out
       {
         emit(DeletedAccountSuccessfullyState());
-      });}).catchError((error){
+      });
+    }).catchError((error){
       debugPrint("there is an error during delete an account from business logic layer $error");
       emit(ErrorDuringDeleteAccountState());
     });
     return CacheHelper.getCacheData("UserID") == null ? true : false ;
+  }
+
+  // Todo: Update userData ( throw his name , password )
+  Future<bool> updateUserData({String? name,String? password,String? email}) async {
+    emit(UpdateUserDataLoadingState());
+    UserModel userData = UserModel(name: name??userModel!.name, email: email??userModel!.email, password: password??userModel!.password, image: userModel!.image, role: userModel!.role);
+    var response = await profileRepository.updateUserData(model: userData);
+    if( response.id == userId )     // response will be an instance of UserModel if data updated successfully, if doesn't will be an instance of ResponseWithErrorModel
+    {
+      userModel = response ;  // كده يعني حصل update للداتا بنجاح
+      emit(UpdateUserDataSuccessState());
+      return true;
+    }
+    else
+    {
+      emit(UpdateUserDataErrorState(error: response.message.first));    // as ResponseWithErrorModel have a val called messages ( List<String> ) so i will get the first element from it
+      return false;
+    }
   }
 }

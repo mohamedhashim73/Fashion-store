@@ -15,4 +15,12 @@ class ProfileLocalRepository extends ProfileRepository{
     throw UnimplementedError();
   }
 
+  @override
+  Future updateUserData({required UserModel model}) {
+    // TODO: implement updateUserData
+    throw UnimplementedError();
+  }
+
+
+
 }

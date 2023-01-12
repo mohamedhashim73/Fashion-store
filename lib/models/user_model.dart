@@ -26,8 +26,8 @@ class UserModel{
       "name" : name,
       "email" : email,
       "password" : password,
-      "role" : name,
-      "avatar" : name,  // as there called avatar not image
+      "role" : role,
+      "avatar" : image,  // as there called avatar not image
     };
   }
 }
