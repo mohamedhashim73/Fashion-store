@@ -2,6 +2,7 @@ import 'package:fashion_store/view_model/home_view_model/home_cubit.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import '../../shared/constants/colors.dart';
 import '../../view_model/home_view_model/home_states.dart';
 import 'display_products_for_specific_category_screen.dart';
@@ -14,7 +15,7 @@ class CategoriesScreen extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(title: const Text("Categories"),elevation: 0,),
       body: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 20,vertical: 12.5),
+        padding: const EdgeInsets.symmetric(horizontal: 12,vertical: 12),
         child: BlocBuilder<HomeCubit,HomeStates>(
           builder: (context,state) {
             List categories = BlocProvider.of<HomeCubit>(context).categories;
@@ -24,7 +25,7 @@ class CategoriesScreen extends StatelessWidget {
                 physics: const BouncingScrollPhysics(),
                 itemCount: categories.length,
                 shrinkWrap: true,
-                gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(childAspectRatio:0.8,crossAxisCount: 2,mainAxisSpacing: 20,crossAxisSpacing: 20),
+                gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(childAspectRatio:0.8,crossAxisCount: 2,mainAxisSpacing: 5.h,crossAxisSpacing: 15.w),
                 itemBuilder: (context,index){
                   return buildCategoryItem(categories:categories,index: index,context: context);
                 }
@@ -47,13 +48,17 @@ class CategoriesScreen extends StatelessWidget {
       {
         Navigator.push(context, MaterialPageRoute(builder: (context)=> DisplayProductsForSpecificCategoryScreen(categoryID: categories[index].id,categoryName: categories[index].name,)));
       },
-      child: Column(
-        children:
-        [
-          Expanded(child: Image.network(categories[index].image.toString(),height: double.infinity,width: double.infinity,fit: BoxFit.cover,)),
-          const SizedBox(height: 10),
-          Text(categories[index].name.toString(),overflow: TextOverflow.ellipsis,maxLines: 1,style: const TextStyle(color:mainColor,fontWeight: FontWeight.bold,fontSize: 17),)
-        ],
+      child: LayoutBuilder(
+        builder: (context,constraints) {
+          return Column(
+            children:
+            [
+              Expanded(child: Image.network(categories[index].image.toString(),height: constraints.maxHeight*0.7,width: double.infinity,fit: BoxFit.cover,)),
+              SizedBox(height: constraints.maxHeight*0.1),
+              SizedBox(height:constraints.maxHeight*0.2,child: Text(categories[index].name.toString(),overflow: TextOverflow.ellipsis,maxLines: 1,style: TextStyle(color:mainColor,fontWeight: FontWeight.bold,fontSize: 17.sp),))
+            ],
+          );
+        }
       ),
     );
   }

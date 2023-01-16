@@ -7,14 +7,15 @@ import 'package:fashion_store/view_model/home_view_model/home_states.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import '../Widgets/default_search_bar_widget.dart';
 
 // Todo: محتاج اعمل اما ارجع من الاسكرينه ده يصفر list بتاعتي عشان يجيب داتا جديده
 class DisplayProductsForSpecificCategoryScreen extends StatelessWidget {
-  int categoryID;   /// use to get all products for category which depend on its ID
-  String categoryName;
-  List<dynamic> products = [];
-  TextEditingController searchController = TextEditingController();
+  final int categoryID;   // Todo: use this value to get all products for category which depended on its ID to make a request
+  final String categoryName;
+  final List<dynamic> products = [];
+  final TextEditingController searchController = TextEditingController();
   DisplayProductsForSpecificCategoryScreen({super.key, required this.categoryID,required this.categoryName});
   @override
   Widget build(BuildContext context) {
@@ -26,7 +27,7 @@ class DisplayProductsForSpecificCategoryScreen extends StatelessWidget {
         return Scaffold(
           appBar: _appBarItem(cubit: cubit, context: context),
           body: Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 12.0),
+            padding: EdgeInsets.symmetric(horizontal: 10.0.w),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children:
@@ -34,13 +35,11 @@ class DisplayProductsForSpecificCategoryScreen extends StatelessWidget {
                 searchBarItem(
                     controller: searchController,
                     margin: const EdgeInsets.symmetric(horizontal: 12.0,vertical: 15),
-                    onChanged: (input)
-                    {
-                      /// implementation of search for a product
-                    }),
+                    onChanged: (input) {},
+                ),
                 state is GetProductsForSpecificCategorySuccessState ?
-                Expanded(child: _productsView(cubit: cubit)) :
-                const Expanded(child: Center(child: CupertinoActivityIndicator(),)),
+                  Expanded(child: _productsView(cubit: cubit)) :
+                  Expanded(child: Center(child: CupertinoActivityIndicator(radius: 12.5.h,color: mainColor,),)),
               ],
             ),
           ),
@@ -64,54 +63,60 @@ class DisplayProductsForSpecificCategoryScreen extends StatelessWidget {
   }
 
   Widget _productItem({required List<dynamic> products,required int index,required BuildContext context}){
-    return Container(
-      decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(4.0),
-        color: fourthColor,
-      ),
-      padding: const EdgeInsets.symmetric(vertical: 20,horizontal: 12.0),
-      height: 200,
-      child: Row(
-        children:
-        [
-          Expanded(
-              flex:2,
-              child: GestureDetector(
-              onTap: ()=> Navigator.push(context, MaterialPageRoute(builder: (context)=> ProductDetailsScreen(model: products[index]))),
-              child: Hero(
-                tag: products[index].id,
-                  child: Image.network(products[index].images[0].toString(),height: double.infinity,width: double.infinity,fit: BoxFit.fill,)))),
-          const SizedBox(width: 15,),
-          Expanded(
-              flex:3,
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                crossAxisAlignment: CrossAxisAlignment.center,
-                children:
-                [
-                  Text(products[index].title.toString(),style: const TextStyle(color: mainColor,fontWeight: FontWeight.bold,fontSize: 15.5),overflow: TextOverflow.ellipsis,),
-                  const SizedBox(height: 7,),
-                  Text("${products[index].price.toString()} \$",style: const TextStyle(color: Colors.grey,fontWeight: FontWeight.bold)),
-                  const SizedBox(height: 2.5,),
-                  elevationButtons(),
-                  const SizedBox(height: 2.5,),
-                  defaultButton(
-                      onTap: ()
-                      {
-                        /// add to cart implementation method needed
-                      },
-                      content: const Text("Add to Cart",style: TextStyle(color: Colors.white),),
-                    buttonColor: mainColor,
-                    elevation: 0,
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(25)
-                    )
-                  )
-                ],
-              )
+    return LayoutBuilder(
+      builder: (context,constraints) {
+        return Container(
+          decoration: BoxDecoration(
+            borderRadius: BorderRadius.circular(4.0),
+            color: fourthColor,
           ),
-        ],
-      )
+          padding: EdgeInsets.symmetric(vertical: constraints.maxHeight*0.1,horizontal: constraints.maxWidth*0.05),
+          height: 145.h,
+          child: Row(
+            children:
+            [
+              SizedBox(
+                width: constraints.maxWidth*0.35,
+                height: double.infinity,
+                child: GestureDetector(
+                    onTap: ()=> Navigator.push(context, MaterialPageRoute(builder: (context)=> ProductDetailsScreen(model: products[index]))),
+                    child: Hero(
+                        tag: products[index].id,
+                        child: Image.network(products[index].images[0].toString(),height: double.infinity,width: double.infinity,fit: BoxFit.fill,)),)
+              ),
+              SizedBox(
+                width: constraints.maxWidth*0.05,
+              ),
+              SizedBox(
+                width: constraints.maxWidth*0.5,
+                height: double.infinity,
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children:
+                  [
+                    Text(products[index].title.toString(),style: TextStyle(color: mainColor,fontWeight: FontWeight.bold,fontSize: 15.5.sp),overflow: TextOverflow.ellipsis,),
+                    SizedBox(height: 4.h,),
+                    Text("${products[index].price.toString()} \$",style: const TextStyle(color: Colors.grey,fontWeight: FontWeight.bold)),
+                    SizedBox(height: 4.h,),
+                    elevationButtons(),
+                    SizedBox(height: 4.h,),
+                    defaultButton(
+                        onTap: () {},
+                        height: 30.h,
+                        content: const Text("Add to Cart",style: TextStyle(color: Colors.white),),
+                        buttonColor: mainColor,
+                        elevation: 0,
+                        shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(4)
+                        )
+                    )
+                  ],
+              ))
+            ],
+          )
+        );
+      }
     );
   }
 
@@ -122,10 +127,10 @@ class DisplayProductsForSpecificCategoryScreen extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.start,
         children:
         [
-          Text(categoryName,style: const TextStyle(fontWeight: FontWeight.bold,fontSize: 22,color: mainColor),),
-          const SizedBox(height: 2.5),
-          Text("${cubit.productsForSpecificCategory.length} Products",style: const TextStyle(color: Colors.grey,fontSize: 12),),
-          const SizedBox(height: 10),
+          Text(categoryName,style: TextStyle(fontWeight: FontWeight.bold,fontSize: 22.sp,color: mainColor),),
+          SizedBox(height: 2.5.h),
+          Text("${cubit.productsForSpecificCategory.length} Products",style: TextStyle(color: Colors.grey,fontSize: 12.sp),),
+          SizedBox(height: 12.h),
           Expanded(
             child: GridView.builder(
                 physics: const BouncingScrollPhysics(),

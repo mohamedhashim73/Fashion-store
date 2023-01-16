@@ -6,6 +6,7 @@ Widget searchBarItem({required TextEditingController controller,required dynamic
     margin: margin,
     height: height,
     width: width,
+    alignment: Alignment.center,
     child: defaultTextFormField(
         controller: controller,
         prefixIcon: const Icon(Icons.search),

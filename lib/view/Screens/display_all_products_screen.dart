@@ -44,7 +44,7 @@ class DisplayAllProductsScreenState extends State<DisplayAllProductsScreen> {
                       itemBuilder: (context,index){
                         return GestureDetector(
                             onTap: ()=> Navigator.push(context, MaterialPageRoute(builder: (context)=>ProductDetailsScreen(model: filteredData.isNotEmpty ? filteredData[index] : cubit.products[index]))),
-                            child: productItem(index: index,products: filteredData.isNotEmpty ? filteredData : cubit.products));
+                            child: productItem(context:context,index: index,products: filteredData.isNotEmpty ? filteredData : cubit.products));
                       }
                   );
                 }

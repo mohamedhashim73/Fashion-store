@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 
-Widget showBanners({required PageController controller,required List<String> images}){
+Widget showBanners({required PageController controller,required List<String> images,required double height}){
   return SizedBox(
-      height: 150,
+      height: height,
       width: double.infinity,
       child: PageView.builder(
         itemCount: images.length,
