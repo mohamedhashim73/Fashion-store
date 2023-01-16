@@ -1,6 +1,6 @@
 import 'package:fashion_store/models/user_model.dart';
 import 'package:fashion_store/repositories/profile_repo/profile_repo.dart';
-import 'package:fashion_store/shared/cache_helper.dart';
+import 'package:fashion_store/shared/network/cache_helper.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter/material.dart';
 import '../../shared/constants/constants.dart';
@@ -43,7 +43,7 @@ class ProfileCubit extends Cubit<ProfileStates>{
     emit(UpdateUserDataLoadingState());
     UserModel userData = UserModel(name: name??userModel!.name, email: email??userModel!.email, password: password??userModel!.password, image: userModel!.image, role: userModel!.role);
     var response = await profileRepository.updateUserData(model: userData);
-    if( response.id == userId )     // response will be an instance of UserModel if data updated successfully, if doesn't will be an instance of ResponseWithErrorModel
+    if( response.id == userId )     /// response will be one of => maybe an instance of UserModel if data updated successfully, if doesn't it will be an instance of ResponseWithErrorModel
     {
       userModel = response ;  // كده يعني حصل update للداتا بنجاح
       emit(UpdateUserDataSuccessState());

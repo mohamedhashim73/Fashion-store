@@ -1,8 +1,7 @@
 import 'package:fashion_store/shared/constants/colors.dart';
-import 'package:fashion_store/view/Widgets/alert_message.dart';
-import 'package:fashion_store/view/Widgets/default_buttons.dart';
+import 'package:fashion_store/view/Widgets/default_alert_message_widget.dart';
+import 'package:fashion_store/view/Widgets/default_buttons_widget.dart';
 import 'package:fashion_store/view_model/profile_view_model/profile_cubit.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -15,6 +14,7 @@ class UpdateProfileScreen extends StatelessWidget {
   TextEditingController passwordController = TextEditingController();
   TextEditingController confirmPasswordController = TextEditingController();
   GlobalKey<FormState> formKey = GlobalKey<FormState>();
+
   @override
   Widget build(BuildContext context) {
     ProfileCubit cubit = BlocProvider.of<ProfileCubit>(context);
@@ -40,45 +40,12 @@ class UpdateProfileScreen extends StatelessWidget {
                 child: Column(
                   children:
                   [
-                    ExpansionTile(
-                      title: const Text("Change email",style: TextStyle(fontWeight: FontWeight.w500,fontSize: 17),),
-                      backgroundColor: Colors.transparent,
-                      collapsedIconColor: mainColor,
-                      collapsedTextColor: mainColor,
-                      tilePadding: const EdgeInsets.symmetric(horizontal: 12.5),
-                      childrenPadding: const EdgeInsets.symmetric(horizontal: 15,vertical: 10),
-                      collapsedBackgroundColor: fourthColor,
-                      children:
-                      [
-                        defaultTextFormField(
-                            controller: emailController,
-                            hint:"New email",
-                            inputBorder: const OutlineInputBorder()
-                        ),
-                      ],
-                    ),
+                    expansionTileComponent(expansionTileTitle: "Change Email", textFieldHint: "new email", controller: emailController),
+                    const SizedBox(height: 20,),
+                    expansionTileComponent(expansionTileTitle: "Change Name", textFieldHint: "new name", controller: nameController),
                     const SizedBox(height: 20,),
                     ExpansionTile(
-                      title: const Text("Change name",style: TextStyle(fontWeight: FontWeight.w500,fontSize: 17),),
-                      backgroundColor: Colors.transparent,
-                      collapsedIconColor: mainColor,
-                      collapsedTextColor: mainColor,
-                      tilePadding: const EdgeInsets.symmetric(horizontal: 12.5),
-                      childrenPadding: const EdgeInsets.symmetric(horizontal: 15,vertical: 10),
-                      collapsedBackgroundColor: fourthColor,
-                      children:
-                      [
-                        defaultTextFormField(
-                            controller: nameController,
-                            hint:"New name",
-                            // fillColor: fourthColor,
-                            inputBorder: const OutlineInputBorder()
-                        ),
-                      ],
-                    ),
-                    const SizedBox(height: 20,),
-                    ExpansionTile(
-                      title: const Text("Change password",style: TextStyle(fontWeight: FontWeight.w500,fontSize: 17),),
+                      title: const Text("Change Password",style: TextStyle(fontWeight: FontWeight.w500,fontSize: 17),),
                       backgroundColor: Colors.transparent,
                       collapsedIconColor: mainColor,
                       collapsedTextColor: mainColor,
@@ -90,7 +57,6 @@ class UpdateProfileScreen extends StatelessWidget {
                         defaultTextFormField(
                             controller: passwordController,
                             hint:"New Password",
-                            // fillColor: fourthColor,
                             inputBorder: const OutlineInputBorder()
                         ),
                         const SizedBox(height: 15),
@@ -99,16 +65,8 @@ class UpdateProfileScreen extends StatelessWidget {
                             hint:"Confirm Password",
                             validateMethod: (val)
                             {
-                              if( confirmPasswordController.text != passwordController.text && passwordController.text.isNotEmpty )
-                              {
-                                return "Password on two Fields must be the same";
-                              }
-                              else
-                              {
-                                return null ;
-                              }
+                               return confirmPasswordController.text != passwordController.text && passwordController.text.isNotEmpty ? "Password on two Fields must be the same" : null;
                             },
-                            // fillColor: fourthColor,
                             inputBorder: const OutlineInputBorder()
                         ),
                       ],
@@ -138,6 +96,27 @@ class UpdateProfileScreen extends StatelessWidget {
           ),
         ),
       ),
+    );
+  }
+
+  // Todo: use it with name and email as if every one of this have only one textField
+  Widget expansionTileComponent({required String expansionTileTitle,required String textFieldHint,required TextEditingController controller}){
+    return ExpansionTile(
+      title: Text(expansionTileTitle,style: const TextStyle(fontWeight: FontWeight.w500,fontSize: 17),),
+      backgroundColor: Colors.transparent,
+      collapsedIconColor: mainColor,
+      collapsedTextColor: mainColor,
+      tilePadding: const EdgeInsets.symmetric(horizontal: 12.5),
+      childrenPadding: const EdgeInsets.symmetric(horizontal: 15,vertical: 10),
+      collapsedBackgroundColor: fourthColor,
+      children:
+      [
+        defaultTextFormField(
+            controller: controller,
+            hint: textFieldHint,
+            inputBorder: const OutlineInputBorder()
+        ),
+      ],
     );
   }
 }

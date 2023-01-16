@@ -1,7 +1,7 @@
 import 'package:fashion_store/shared/constants/colors.dart';
 import 'package:fashion_store/view/Screens/product_details_screen.dart';
-import 'package:fashion_store/view/Widgets/default_buttons.dart';
-import 'package:fashion_store/view/Widgets/product_item_widget.dart';
+import 'package:fashion_store/view/Widgets/default_buttons_widget.dart';
+import 'package:fashion_store/view/Widgets/default_product_item_widget.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';

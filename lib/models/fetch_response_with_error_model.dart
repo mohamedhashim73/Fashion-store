@@ -1,3 +1,4 @@
+// Todo: if I made a bad request , I will get the response in this form
 class ResponseWithErrorModel{
   late int statusCode;
   late List message;

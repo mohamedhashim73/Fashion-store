@@ -3,7 +3,7 @@ import 'package:fashion_store/repositories/profile_repo/profile_repo.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/cupertino.dart';
 import '../../models/fetch_response_with_error_model.dart';
-import '../../shared/cache_helper.dart';
+import '../../shared/network/cache_helper.dart';
 import '../../shared/constants/constants.dart';
 
 class ProfileNetworkRepository extends ProfileRepository{

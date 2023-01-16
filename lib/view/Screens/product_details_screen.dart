@@ -1,12 +1,12 @@
 import 'package:fashion_store/models/product_model.dart';
 import 'package:fashion_store/shared/constants/colors.dart';
-import 'package:fashion_store/view/Widgets/default_buttons.dart';
+import 'package:fashion_store/view/Widgets/default_buttons_widget.dart';
 import 'package:fashion_store/view_model/home_view_model/home_cubit.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../view_model/home_view_model/home_states.dart';
-import '../Widgets/default_packages_item.dart';
+import '../Widgets/default_packages_widget.dart';
 
 class ProductDetailsScreen extends StatelessWidget {
   ProductDetailsScreen({Key? key,required this.model}) : super(key: key);

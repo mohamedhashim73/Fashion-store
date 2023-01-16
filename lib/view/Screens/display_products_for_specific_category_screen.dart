@@ -1,13 +1,13 @@
 import 'package:fashion_store/main.dart';
 import 'package:fashion_store/shared/constants/colors.dart';
 import 'package:fashion_store/view/Screens/product_details_screen.dart';
-import 'package:fashion_store/view/Widgets/default_buttons.dart';
+import 'package:fashion_store/view/Widgets/default_buttons_widget.dart';
 import 'package:fashion_store/view_model/home_view_model/home_cubit.dart';
 import 'package:fashion_store/view_model/home_view_model/home_states.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import '../Widgets/search_bar_item.dart';
+import '../Widgets/default_search_bar_widget.dart';
 
 // Todo: محتاج اعمل اما ارجع من الاسكرينه ده يصفر list بتاعتي عشان يجيب داتا جديده
 class DisplayProductsForSpecificCategoryScreen extends StatelessWidget {

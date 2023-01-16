@@ -1,5 +1,5 @@
 import 'package:fashion_store/models/user_model.dart';
-import 'package:fashion_store/shared/cache_helper.dart';
+import 'package:fashion_store/shared/network/cache_helper.dart';
 import 'package:fashion_store/shared/constants/constants.dart';
 import 'package:fashion_store/view_model/auth_view_model/auth_states.dart';
 import 'package:flutter/cupertino.dart';

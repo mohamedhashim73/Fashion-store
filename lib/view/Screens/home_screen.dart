@@ -1,9 +1,9 @@
-import 'package:fashion_store/shared/cache_helper.dart';
+import 'package:fashion_store/shared/network/cache_helper.dart';
 import 'package:fashion_store/shared/constants/colors.dart';
 import 'package:fashion_store/shared/constants/constants.dart';
 import 'package:fashion_store/view/Screens/display_products_for_specific_category_screen.dart';
 import 'package:fashion_store/view/Screens/product_details_screen.dart';
-import 'package:fashion_store/view/Widgets/search_bar_item.dart';
+import 'package:fashion_store/view/Widgets/default_search_bar_widget.dart';
 import 'package:fashion_store/view_model/home_view_model/home_cubit.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -11,8 +11,8 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
 import '../../view_model/home_view_model/home_states.dart';
-import '../Widgets/displayBanners.dart';
-import '../Widgets/product_item_widget.dart';
+import '../Widgets/default_displayBanners_widget.dart';
+import '../Widgets/default_product_item_widget.dart';
 
 class HomeScreen extends StatelessWidget {
   HomeScreen({Key? key}) : super(key: key);
