@@ -34,9 +34,8 @@ class DisplayAllProductsScreenState extends State<DisplayAllProductsScreen> {
           padding: const EdgeInsets.symmetric(vertical: 12,horizontal: 12),
           child: BlocBuilder<HomeCubit,HomeStates>(
               builder: (context,state) {
-                if( state is GetProductsSuccessState )
-                {
-                  return GridView.builder(
+                return cubit.products.isNotEmpty ?
+                  GridView.builder(
                       physics: const BouncingScrollPhysics(),
                       itemCount: filteredData.isNotEmpty ? filteredData.length : cubit.products.length,
                       shrinkWrap: true,
@@ -46,12 +45,8 @@ class DisplayAllProductsScreenState extends State<DisplayAllProductsScreen> {
                             onTap: ()=> Navigator.push(context, MaterialPageRoute(builder: (context)=>ProductDetailsScreen(model: filteredData.isNotEmpty ? filteredData[index] : cubit.products[index]))),
                             child: productItem(context:context,index: index,products: filteredData.isNotEmpty ? filteredData : cubit.products));
                       }
-                  );
-                }
-                else
-                {
-                  return const Center(child: CupertinoActivityIndicator(color: mainColor,));
-                }
+                  ) :
+                  const Center(child: CupertinoActivityIndicator(color: mainColor,));
               }
           ),
         )

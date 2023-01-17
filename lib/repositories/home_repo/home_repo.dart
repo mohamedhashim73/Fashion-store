@@ -1,3 +1,5 @@
+import 'package:fashion_store/models/product_model.dart';
+
 abstract class HomeRepository
 {
   // get all categories
@@ -8,4 +10,5 @@ abstract class HomeRepository
 
   // will return list of productModels
   Future<List<dynamic>> getProductsForSpecificCategory({required int limits,required int offset,required int categoryId});
+
 }

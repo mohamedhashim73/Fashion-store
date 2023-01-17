@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:dio/dio.dart';
 import 'package:fashion_store/models/category_model.dart';
 import 'package:fashion_store/models/product_model.dart';

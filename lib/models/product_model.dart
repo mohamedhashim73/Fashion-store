@@ -6,7 +6,7 @@ class ProductModel{
   int? price;
   String? description;
   List? images;
-  CategoryModel? category;
+  // CategoryModel? category;
 
   ProductModel.fromJson(Map<String,dynamic> json){
     id = json['id'];
@@ -14,7 +14,17 @@ class ProductModel{
     price = json['price'];
     description = json['description'];
     images = json['images'];
-    category = json['category'] != null ? CategoryModel.fromJson(json['category']) : null;
+    // category = json['category'] != null ? CategoryModel.fromJson(json['category']) : null;
   }
 
+  Map<String,dynamic> toJson(){
+    return {
+      "id" : id,
+      "title" : title,
+      "price" : price,
+      "description" : description,
+      "images" : images,
+      // "category" : category,
+    };
+  }
 }

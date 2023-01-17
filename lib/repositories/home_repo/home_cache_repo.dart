@@ -20,5 +20,4 @@ class HomeCacheRepository extends HomeRepository {
     throw UnimplementedError();
   }
 
-
 }

@@ -95,12 +95,27 @@ class HomeScreen extends StatelessWidget {
       title: SvgPicture.asset('assets/images/logo.svg',color: mainColor,height: 40,width: 40,),
       actions:
       [
-        IconButton(
-            onPressed: ()
-            {
-              Navigator.pushNamed(context, "profile_screen");
-            },
-            icon: const Icon(Icons.filter_list_sharp))
+        Padding(
+          padding: EdgeInsets.only(right: 10.w),
+          child: Row(
+            children:
+            [
+              GestureDetector(
+                  onTap: ()
+                  {
+                    Navigator.pushNamed(context, "favorite_screen");
+                  },
+                  child: const Icon(Icons.favorite)),
+              SizedBox(width: 12.5.w,),
+              GestureDetector(
+                  onTap: ()
+                  {
+                    Navigator.pushNamed(context, "profile_screen");
+                  },
+                  child: const Icon(Icons.person)), // icon name : filter_list_sharp
+            ],
+          ),
+        )
       ],
     );
   }

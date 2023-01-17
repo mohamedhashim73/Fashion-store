@@ -1,3 +1,4 @@
+import 'package:fashion_store/view/Screens/favorites_screen.dart';
 import 'package:flutter/services.dart';
 import '../../view/Screens/auth_screen.dart';
 import '../../view/Screens/categories_screen.dart';
@@ -19,6 +20,7 @@ var appRoutes = {
   'profile_screen' : (context) => ProfileScreen(),
   'update_screen' : (context) => UpdateProfileScreen(),
   'all_products_screen' : (context) => const DisplayAllProductsScreen(),
+  'favorite_screen' : (context) => FavoritesScreen(),
 };
 
 const List<DeviceOrientation> deviceOrientations = [

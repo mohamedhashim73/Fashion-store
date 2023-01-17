@@ -1,0 +1,33 @@
+abstract class FavoritesAndOrdersStates{}
+
+class FavoritesAndOrdersInitialState extends FavoritesAndOrdersStates{}
+
+class AddProductToFavoritesSuccessState extends FavoritesAndOrdersStates{}
+
+class AddProductToFavoritesErrorState extends FavoritesAndOrdersStates{}
+
+class DeleteProductFromFavoritesLoadingState extends FavoritesAndOrdersStates{}
+
+class DeleteProductFromFavoritesSuccessState extends FavoritesAndOrdersStates{}
+
+class DeleteProductFromFavoritesErrorState extends FavoritesAndOrdersStates{}
+
+class GetFavoritesErrorState extends FavoritesAndOrdersStates{}
+
+class GetFavoritesSuccessState extends FavoritesAndOrdersStates{}
+
+class GetFavoritesLoadingState extends FavoritesAndOrdersStates{}
+
+class AddProductToOrdersSuccessState extends FavoritesAndOrdersStates{}
+
+class AddProductToOrdersErrorState extends FavoritesAndOrdersStates{}
+
+class DeleteProductFromOrdersSuccessState extends FavoritesAndOrdersStates{}
+
+class DeleteProductFromOrdersErrorState extends FavoritesAndOrdersStates{}
+
+class GetOrdersErrorState extends FavoritesAndOrdersStates{}
+
+class GetOrdersSuccessState extends FavoritesAndOrdersStates{}
+
+class GetOrdersLoadingState extends FavoritesAndOrdersStates{}
