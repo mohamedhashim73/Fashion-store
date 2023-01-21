@@ -9,4 +9,7 @@ abstract class FavoritesAndOrdersRepository{
 
   // get all products that on favorite throw Firebase
   Future<List<ProductModel>> getFavorites({required int userID});
+
+  Map<int,bool> getFavoritesStatus();
+
 }

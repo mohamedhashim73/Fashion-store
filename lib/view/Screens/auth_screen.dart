@@ -1,5 +1,6 @@
 import 'package:fashion_store/repositories/auth_repo/auth_network_repo.dart';
 import 'package:fashion_store/shared/constants/colors.dart';
+import 'package:fashion_store/view/Screens/layout_screen.dart';
 import 'package:fashion_store/view/Widgets/default_alert_message_widget.dart';
 import 'package:fashion_store/view/Widgets/default_buttons_widget.dart';
 import 'package:fashion_store/view_model/auth_view_model/auth_cubit.dart';
@@ -72,7 +73,7 @@ class AuthScreen extends StatelessWidget {
                                 SizedBox(height: 25.h,),
                                 BlocConsumer<AuthCubit,AuthStates>(
                                   listener: (context,state){
-                                    if ( state is AuthSuccessState ) Navigator.pushReplacement(context,MaterialPageRoute(builder: (context)=> HomeScreen()));
+                                    if ( state is AuthSuccessState ) Navigator.pushReplacement(context,MaterialPageRoute(builder: (context)=> LayoutScreen()));
                                     if ( state is AuthErrorState )
                                     {
                                       var snackBar = alertMessage(message: "Error during login, try again later", messageColor: Colors.red);

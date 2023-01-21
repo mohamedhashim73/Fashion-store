@@ -19,5 +19,11 @@ class FavoritesAndOrdersCacheRepository extends FavoritesAndOrdersRepository{
     // TODO: implement getFavorites
     throw UnimplementedError();
   }
-  
+
+  @override
+  Map<int, bool> getFavoritesStatus() {
+    // TODO: implement getFavoritesStatus
+    throw UnimplementedError();
+  }
+
 }

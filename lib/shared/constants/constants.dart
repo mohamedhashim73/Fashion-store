@@ -1,4 +1,5 @@
 import 'package:fashion_store/view/Screens/favorites_screen.dart';
+import 'package:fashion_store/view/Screens/layout_screen.dart';
 import 'package:flutter/services.dart';
 import '../../view/Screens/auth_screen.dart';
 import '../../view/Screens/categories_screen.dart';
@@ -15,6 +16,7 @@ const List<String> bannersImages =
   'assets/images/banner3.png',
 ];
 var appRoutes = {
+  'layout_screen' : (context) => const LayoutScreen(),
   'category_screen' : (context) => const CategoriesScreen(),
   'auth_screen' : (context) => AuthScreen(),
   'profile_screen' : (context) => ProfileScreen(),

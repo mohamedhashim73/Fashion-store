@@ -1,14 +1,16 @@
 import 'package:fashion_store/shared/constants/colors.dart';
-import 'package:fashion_store/shared/constants/constants.dart';
 import 'package:fashion_store/view_model/favorites_orders_view_model/favorites_orders_cubit.dart';
+import 'package:fashion_store/view_model/home_view_model/home_cubit.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
-Widget productItem({required List<dynamic> products,required int index,required BuildContext context}){
+// Todo: بالنسبه للمتغير ده usedFromHomeScreen عامله عشان لو هستدعي الداله ده في صفحه عرض المنتجات هيعمل أكشن معين عند الضغط علي favorite icon
+Widget productItem({required List<dynamic> products,required int index,required BuildContext context,bool usedFromHomeScreen = true}){
   return LayoutBuilder(
     // Todo: for responsive padding take => 0.05*2 = 0.1 favorite Icon take => 0.9 last item take => 0.76
     builder: (context,constraints){
+      final cubit = FavoritesAndOrdersCubit.getInstance(context);
       return Container(
         clipBehavior: Clip.none,
         padding: EdgeInsets.symmetric(horizontal: constraints.maxWidth*0.075,vertical: constraints.maxHeight*0.05),
@@ -23,13 +25,31 @@ Widget productItem({required List<dynamic> products,required int index,required 
             Container(
               height: constraints.maxHeight*0.1,
               alignment: AlignmentDirectional.topEnd,
-              child: GestureDetector(
-                onTap: ()
-                {
-                  // Todo: here add add to favorite method
-                  BlocProvider.of<FavoritesAndOrdersCubit>(context).addProductToFavorites(model: products[index]);
-                },
-                child: const Icon(Icons.favorite,color: Colors.grey),
+              child: StatefulBuilder(
+                  builder: (context,setState) {
+                    return GestureDetector(
+                      child: cubit.favoritesStatus[products[index].id] == true ? const Icon(Icons.favorite,color: mainColor) : const Icon( Icons.favorite_border,color: mainColor),
+                      onTap:()
+                      {
+                        // Todo: Add Item to Favorite or remove it ( Firestore )
+                        setState(()
+                        {
+                          if( cubit.favoritesStatus[products[index].id] == true )    // This mean that this place on Favorites as it has a value
+                          {
+                            cubit.removeProductFromFavorites(productID: products[index].id);       // pass place id
+                            cubit.favoritesStatus[products[index].id] = false;
+                            if( usedFromHomeScreen == false ) BlocProvider.of<HomeCubit>(context).getAllProducts(limits: 10, offset: 80, context: context);    // Todo: عاملها عشان لو ف صفحه عرض كل المنتجات ضفت منتج للمفضله او حذفته تتحدث الداتا في صفحه HomeScreen .... خلي بالك داخل الميثود ده فيه استدعاء getFavorites
+                          }
+                          else
+                          {
+                            cubit.addProductToFavorites(model: products[index]);
+                            cubit.favoritesStatus[products[index].id] = true;
+                            if( usedFromHomeScreen == false ) BlocProvider.of<HomeCubit>(context).getAllProducts(limits: 10, offset: 80, context: context);    // Todo: عاملها عشان لو ف صفحه عرض كل المنتجات ضفت منتج للمفضله او حذفته تتحدث الداتا في صفحه HomeScreen
+                          }
+                        });
+                      },
+                    );
+                  }
               ),
             ),
             SizedBox(height: constraints.maxWidth*0.05,),  // 0.05 0.05 0.7 0.1 0.08

@@ -17,106 +17,90 @@ import '../Widgets/default_product_item_widget.dart';
 
 class HomeScreen extends StatelessWidget {
   HomeScreen({Key? key}) : super(key: key);
-  TextEditingController searchController = TextEditingController();
-  PageController pageViewController = PageController();
+  final TextEditingController searchController = TextEditingController();
+  final PageController pageViewController = PageController();
 
   @override
   Widget build(BuildContext context) {
     MediaQueryData mediaQuery = MediaQuery.of(context);
-    HomeCubit cubit = BlocProvider.of<HomeCubit>(context);  /// make an instance from cubit
-    return Scaffold(
-        appBar: appBar(context),
-        body: Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 12.0,vertical: 15.0),
-          child: SingleChildScrollView(
-            physics: const BouncingScrollPhysics(),
-            child: Column(
-              children:
-              [
-                // 0.06
-                searchBarItem(
-                    width: mediaQuery.size.width,
-                    height: 45.h,
-                    controller: searchController,
-                    margin: const EdgeInsets.symmetric(horizontal: 12.0),
-                    onChanged: (input)
-                    {
-                      // Todo .. implementation of search for a product
-                    }),
-                SizedBox(height: 12.5.h,),
-                showBanners(controller: pageViewController,images: bannersImages,height: 125.h),
-                SizedBox(height: 12.5.h,),
-                showSmoothIndicator(),
-                SizedBox(height: 10.h,),
-                _itemWithViewAllComponent(title: "Categories",context: context,pushNamedTitle: "category_screen"),   // contain a row with two texts first .. categories second .. view all categories
-                SizedBox(height: 11.h,),
-                BlocBuilder<HomeCubit,HomeStates>(
-                    builder: (context,state)
-                    {
-                      return cubit.categories.isNotEmpty ?
-                            displayCategories(cubit: cubit,categories: cubit.categories,context: context) :
-                            Container();
-                    }),
-                SizedBox(height: 11.h,),
-                _itemWithViewAllComponent(title: "Products",context: context,pushNamedTitle: "all_products_screen"),
-                SizedBox(height: 15.h,),
-                BlocBuilder<HomeCubit,HomeStates>(
-                  builder: (context,state) {
-                    if( cubit.products.isNotEmpty  )
-                      {
-                        return GridView.builder(
-                            physics: const BouncingScrollPhysics(),
-                            itemCount: 4,   /// The same number that I put on when I call getProducts on MultiProvider on main.dart file
-                            shrinkWrap: true,
-                            gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(childAspectRatio: 0.6,crossAxisCount: 2,mainAxisSpacing: 20,crossAxisSpacing: 20),
-                            itemBuilder: (context,index){
-                              return GestureDetector(
-                                  onTap: ()=> Navigator.push(context, MaterialPageRoute(builder: (context)=> ProductDetailsScreen(model: cubit.products[index]))),
-                                  child: productItem(index: index,products: cubit.products,context: context)
-                              );
-                            }
-                        );
-                      }
-                    else
-                      {
-                        return const Center(child: CupertinoActivityIndicator());
-                      }
-                  }
+    HomeCubit cubit = HomeCubit.getInstance(context: context);  // Todo: make an instance from cubit
+    return Builder(
+      builder: (context)
+      {
+        if( cubit.products.isEmpty ) cubit.getAllProducts(limits: 50, offset: 100, context: context);
+        return Scaffold(
+            appBar: appBar(context),
+            body: Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 12.0,vertical: 15.0),
+              child: SingleChildScrollView(
+                physics: const BouncingScrollPhysics(),
+                child: Column(
+                  children:
+                  [
+                    searchBarItem(
+                        width: mediaQuery.size.width,
+                        height: 45.h,
+                        controller: searchController,
+                        margin: const EdgeInsets.symmetric(horizontal: 12.0),
+                        onChanged: (input)
+                        {
+                          // Todo .. implementation of search for a product
+                        }
+                        ),
+                    SizedBox(height: 12.5.h,),
+                    showBanners(controller: pageViewController,images: bannersImages,height: 135.h),
+                    SizedBox(height: 12.5.h,),
+                    showSmoothIndicator(),
+                    SizedBox(height: 10.h,),
+                    _itemWithViewAllComponent(title: "Categories",context: context,pushNamedTitle: "category_screen"),   // contain a row with two texts first .. categories second .. view all categories
+                    SizedBox(height: 11.h,),
+                    BlocBuilder<HomeCubit,HomeStates>(
+                        builder: (context,state)
+                        {
+                          return cubit.categories.isNotEmpty ?
+                          displayCategories(cubit: cubit,categories: cubit.categories,context: context) :
+                          Container();
+                        }),
+                    SizedBox(height: 11.h,),
+                    _itemWithViewAllComponent(title: "Products",context: context,pushNamedTitle: "all_products_screen"),
+                    SizedBox(height: 15.h,),
+                    BlocBuilder<HomeCubit,HomeStates>(
+                        builder: (context,state)
+                        {
+                          return cubit.products.isNotEmpty ?
+                            _productsComponentsView(homeCubit: cubit):
+                            const Center(child: CupertinoActivityIndicator());
+                        }
+                    ),
+                  ],
                 ),
-              ],
-            ),
-          ),
-        )
+              ),
+            )
+        );
+      },
+    );
+  }
+
+  // Todo: If there are Data on Products, this will be shown
+  Widget _productsComponentsView({required HomeCubit homeCubit}){
+    return GridView.builder(
+        physics: const BouncingScrollPhysics(),
+        itemCount: 10,   // Todo: The same number that I pass for getAllProducts method that on HomeCubit (( limits ))
+        shrinkWrap: true,
+        gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(childAspectRatio: 0.6,crossAxisCount: 2,mainAxisSpacing: 20,crossAxisSpacing: 20),
+        itemBuilder: (context,index){
+          return GestureDetector(
+            onTap: ()=> Navigator.push(context, MaterialPageRoute(builder: (context)=> ProductDetailsScreen(model: homeCubit.products[index]))),
+            child: productItem(index: index,products: homeCubit.products,context: context),
+            // Todo: بالنسبه للمتغير ده usedFromHomeScreen عامله عشان لو هستدعي الداله ده في صفحه عرض المنتجات هيعمل أكشن معين عند الضغط علي favorite icon
+          );
+        }
     );
   }
 
   PreferredSizeWidget appBar(BuildContext context){
     return AppBar(
       title: SvgPicture.asset('assets/images/logo.svg',color: mainColor,height: 40,width: 40,),
-      actions:
-      [
-        Padding(
-          padding: EdgeInsets.only(right: 10.w),
-          child: Row(
-            children:
-            [
-              GestureDetector(
-                  onTap: ()
-                  {
-                    Navigator.pushNamed(context, "favorite_screen");
-                  },
-                  child: const Icon(Icons.favorite)),
-              SizedBox(width: 12.5.w,),
-              GestureDetector(
-                  onTap: ()
-                  {
-                    Navigator.pushNamed(context, "profile_screen");
-                  },
-                  child: const Icon(Icons.person)), // icon name : filter_list_sharp
-            ],
-          ),
-        )
-      ],
     );
   }
 

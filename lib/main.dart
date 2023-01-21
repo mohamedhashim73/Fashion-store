@@ -6,16 +6,17 @@ import 'package:fashion_store/shared/network/cache_helper.dart';
 import 'package:fashion_store/shared/constants/constants.dart';
 import 'package:fashion_store/shared/theme/theme.dart';
 import 'package:fashion_store/view/Screens/auth_screen.dart';
-import 'package:fashion_store/view/Screens/home_screen.dart';
+import 'package:fashion_store/view/Screens/layout_screen.dart';
+import 'package:fashion_store/view/Screens/splash_screen.dart';
 import 'package:fashion_store/view_model/favorites_orders_view_model/favorites_orders_cubit.dart';
 import 'package:fashion_store/view_model/home_view_model/home_cubit.dart';
+import 'package:fashion_store/view_model/layout_view_model/layout_cubit.dart';
 import 'package:fashion_store/view_model/profile_view_model/profile_cubit.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-
 import 'firebase_options.dart';
 
 Future<void> main() async {
@@ -39,18 +40,19 @@ class MyApp extends StatelessWidget{
     return MultiBlocProvider(
       providers:
       [
-        BlocProvider(create: (context)=> HomeCubit(homeRepository: HomeNetworkRepository())..getCategories()..getAllProducts(limits: 4, offset: 60),),
+        BlocProvider(create: (context)=> LayoutCubit(),),
+        BlocProvider(create: (context)=> HomeCubit(homeRepository: HomeNetworkRepository())..getCategories()),
         BlocProvider(create: (context)=> ProfileCubit(profileRepository: ProfileNetworkRepository())..getUserInfo()),
-        BlocProvider(create: (context)=> FavoritesAndOrdersCubit(favoritesAndOrdersNetworkRepo: FavoritesAndOrdersNetworkRepository())),
+        BlocProvider(create: (context)=> FavoritesAndOrdersCubit(favoritesAndOrdersRepository: FavoritesAndOrdersNetworkRepository())..getFavorites()),
       ],
       child: ScreenUtilInit(
-        designSize: const Size(360, 690),
+        designSize: const Size(360,690),
         minTextAdapt: true,
         splitScreenMode: true,
         builder: (context,child){
           return MaterialApp(
             debugShowCheckedModeBanner: false,
-            home: userId != null ? HomeScreen() : AuthScreen(),
+            home: const SplashScreen(),
             theme: lightTheme,
             routes: appRoutes,
           );

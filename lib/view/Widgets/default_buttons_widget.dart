@@ -69,3 +69,18 @@ Widget defaultButton({
     child: content
   );
 }
+
+Widget evaluationButtons(){
+  return Row(
+    mainAxisAlignment: MainAxisAlignment.center,
+    children:
+    const
+    [
+      Icon(Icons.star,size: 18,color: Colors.orange,),
+      Icon(Icons.star,size: 18,color: Colors.orange,),
+      Icon(Icons.star,size: 18,color: Colors.orange,),
+      Icon(Icons.star,size: 18,color: Colors.white,),
+      Icon(Icons.star,size: 18,color: Colors.white,),
+    ],
+  );
+}

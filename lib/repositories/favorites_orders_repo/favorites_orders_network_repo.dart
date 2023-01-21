@@ -5,6 +5,7 @@ import 'package:flutter/cupertino.dart';
 
 class FavoritesAndOrdersNetworkRepository extends FavoritesAndOrdersRepository{
   List<ProductModel> favorites = [];
+  Map<int,bool> favoritesStatus = {};
 
   @override
   Future<void> addProductToFavorite({required int userID,required ProductModel model}) async {
@@ -26,10 +27,16 @@ class FavoritesAndOrdersNetworkRepository extends FavoritesAndOrdersRepository{
     await FirebaseFirestore.instance.collection('users').doc(userID.toString()).collection('favorites').get().then((value){
       for( var product in value.docs ) // product => map that come from Firestore (( field ))
         {
+          favoritesStatus.addAll({int.parse(product.id) : true});               // convert product id to int as product.id is a string value
           favorites.add(ProductModel.fromJson(product.data()));
         }
     });
     return favorites;
+  }
+
+  @override
+  Map<int,bool> getFavoritesStatus(){
+    return favoritesStatus;
   }
 
 }

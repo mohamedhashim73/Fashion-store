@@ -20,36 +20,42 @@ class DisplayAllProductsScreenState extends State<DisplayAllProductsScreen> {
   bool isSearching = false;
 
   @override
-  void initState() {
+  void initState()
+  {
     // TODO: implement initState
-    BlocProvider.of<HomeCubit>(context).getAllProducts(limits: 50, offset: 60);
     super.initState();
   }
   @override
   Widget build(BuildContext context) {
     HomeCubit cubit = BlocProvider.of<HomeCubit>(context);
-    return Scaffold(
-        appBar: isSearching ? searchBarItem(products: cubit.products) : appBarItem(),
-        body: Padding(
-          padding: const EdgeInsets.symmetric(vertical: 12,horizontal: 12),
-          child: BlocBuilder<HomeCubit,HomeStates>(
-              builder: (context,state) {
-                return cubit.products.isNotEmpty ?
-                  GridView.builder(
-                      physics: const BouncingScrollPhysics(),
-                      itemCount: filteredData.isNotEmpty ? filteredData.length : cubit.products.length,
-                      shrinkWrap: true,
-                      gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(childAspectRatio: 0.6,crossAxisCount: 2,mainAxisSpacing: 20,crossAxisSpacing: 20),
-                      itemBuilder: (context,index){
-                        return GestureDetector(
-                            onTap: ()=> Navigator.push(context, MaterialPageRoute(builder: (context)=>ProductDetailsScreen(model: filteredData.isNotEmpty ? filteredData[index] : cubit.products[index]))),
-                            child: productItem(context:context,index: index,products: filteredData.isNotEmpty ? filteredData : cubit.products));
-                      }
-                  ) :
-                  const Center(child: CupertinoActivityIndicator(color: mainColor,));
-              }
-          ),
-        )
+    return Builder(
+      builder: (context) {
+        if( cubit.products.isEmpty ) BlocProvider.of<HomeCubit>(context).getAllProducts(limits: 50, offset: 60,context: context);
+        return Scaffold(
+            appBar: isSearching ? searchBarItem(products: cubit.products) : appBarItem(),
+            body: Padding(
+              padding: const EdgeInsets.symmetric(vertical: 12,horizontal: 12),
+              child: BlocBuilder<HomeCubit,HomeStates>(
+                  builder: (context,state) {
+                    return cubit.products.isNotEmpty ?
+                      GridView.builder(
+                          physics: const BouncingScrollPhysics(),
+                          itemCount: filteredData.isNotEmpty ? filteredData.length : cubit.products.length,
+                          shrinkWrap: true,
+                          gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(childAspectRatio: 0.6,crossAxisCount: 2,mainAxisSpacing: 20,crossAxisSpacing: 20),
+                          itemBuilder: (context,index)
+                          {
+                            return GestureDetector(
+                                onTap: ()=> Navigator.push(context, MaterialPageRoute(builder: (context)=>ProductDetailsScreen(model: filteredData.isNotEmpty ? filteredData[index] : cubit.products[index]))),
+                                child: productItem(usedFromHomeScreen:false,context:context,index: index,products: filteredData.isNotEmpty ? filteredData : cubit.products));
+                          }
+                          ) :
+                      const Center(child: CupertinoActivityIndicator(color: mainColor,));
+                  }
+              ),
+            )
+        );
+      }
     );
   }
 
